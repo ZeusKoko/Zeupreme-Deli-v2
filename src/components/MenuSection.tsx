@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Search, Plus, Sparkles, Tag, Flame, Clock } from 'lucide-react';
 import { MenuItem, MenuCategory, CartItem } from '../types/deli';
 import { ZEUPREME_SPECIALTIES, CURRENT_OFFERS, DELI_MENU_ITEMS } from '../data/deliMenu';
+import { useCurrency } from '../context/CurrencyContext';
 
 interface MenuSectionProps {
   onSelectItem: (item: MenuItem) => void;
@@ -12,6 +13,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
   onSelectItem,
   onQuickAdd,
 }) => {
+  const { formatPrice } = useCurrency();
   const [activeCategory, setActiveCategory] = useState<MenuCategory>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -90,7 +92,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                 {/* Price and Orange Add to Cart Button */}
                 <div className="mt-6 pt-4 border-t border-[#161E1A]/10 flex items-center justify-between">
                   <span className="font-mono text-xl font-black text-[#161E1A] tabular-nums">
-                    ${item.price.toFixed(2)}
+                    {formatPrice(item.price)}
                   </span>
 
                   <button
@@ -165,11 +167,11 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                   <div className="mt-6 pt-4 border-t border-[#161E1A]/10 flex items-center justify-between">
                     <div className="flex items-baseline gap-2">
                       <span className="font-mono text-xl font-black text-[#FA7D09] tabular-nums">
-                        ${offer.price.toFixed(2)}
+                        {formatPrice(offer.price)}
                       </span>
                       {offer.originalPrice && (
                         <span className="font-mono text-xs text-[#8A958E] line-through tabular-nums">
-                          ${offer.originalPrice.toFixed(2)}
+                          {formatPrice(offer.originalPrice)}
                         </span>
                       )}
                     </div>
@@ -293,7 +295,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
 
                 <div className="mt-6 pt-4 border-t border-[#161E1A]/10 flex items-center justify-between gap-3">
                   <span className="font-mono text-lg font-bold text-[#161E1A] tabular-nums">
-                    ${item.price.toFixed(2)}
+                    {formatPrice(item.price)}
                   </span>
 
                   <div className="flex items-center gap-2">

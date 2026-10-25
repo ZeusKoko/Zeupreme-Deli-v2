@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { ShoppingBag, Menu as MenuIcon, X, Clock, MapPin } from 'lucide-react';
+import { useCurrency } from '../context/CurrencyContext';
+import { CurrencySwitcher } from './CurrencySwitcher';
 
 interface NavbarProps {
   cartCount: number;
@@ -28,6 +30,8 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'menu', label: 'Full Menu' },
     { id: 'location', label: 'Find Us' },
   ];
+
+  const { formatPrice } = useCurrency();
 
   const handleNavClick = (id: string) => {
     onNavigate(id);
@@ -80,8 +84,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           })}
         </nav>
 
-        {/* Zone 3: 1 primary action (Cart & active order tracker) */}
+        {/* Zone 3: 1 primary action (Cart & active order tracker + Currency Switcher) */}
         <div className="flex items-center gap-3 shrink-0">
+          {/* Automatic Location-Based Currency Switcher */}
+          <CurrencySwitcher />
+
           {hasActiveOrder && (
             <button
               onClick={onOpenTracker}
@@ -108,7 +115,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span>Cart</span>
             {cartTotal > 0 && (
               <span className="font-mono text-xs text-white/90 border-l border-white/30 pl-2">
-                ${cartTotal.toFixed(2)}
+                {formatPrice(cartTotal)}
               </span>
             )}
           </button>

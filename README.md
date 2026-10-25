@@ -57,7 +57,16 @@ Zeupreme Deli began as a passion project celebrating bold culinary comfort food.
   4. **Ready for Pickup / Out for Delivery** (Celebratory confetti trigger with `canvas-confetti`)
 * Speed-up controls for rapid demonstration.
 
-### 5. Find Us & Follow Us
+### 5. Automatic Device Currency Detection & Switcher (`CurrencyContext.tsx`)
+* **Instant Device-Based Detection**:
+  * Detects user locale and time zone (e.g. `Africa/Nairobi` automatically maps to **Kenyan Shillings `KES` / `KSh`**).
+  * Geolocation IP fallback for country detection (`KE` -> `KES`, Europe -> `EUR`, UK -> `GBP`, US & global -> `USD`).
+  * Real-time localized pricing across all items, customized modifiers, cart subtotal, 16% VAT, and kitchen receipts.
+* **Header Currency Switcher (`CurrencySwitcher.tsx`)**:
+  * Displays current currency with country flag (e.g. `🇰🇪 KES (Auto)`).
+  * Seamless manual override selector with persistence in `localStorage`.
+
+### 6. Find Us & Follow Us
 * **Location Card**:
   * **Address**: `123 Flavor Street, Westlands, Nairobi, Kenya`
   * **Phone**: `+254 712 345 678`

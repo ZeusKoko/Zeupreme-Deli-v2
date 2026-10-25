@@ -13,6 +13,7 @@ import {
   Gift
 } from 'lucide-react';
 import { CartItem, OrderRecord } from '../types/deli';
+import { useCurrency } from '../context/CurrencyContext';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -33,6 +34,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onClearCart,
   onPlaceOrder,
 }) => {
+  const { formatPrice } = useCurrency();
   const [fulfillmentType, setFulfillmentType] = useState<'pickup' | 'delivery'>('pickup');
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
@@ -128,9 +130,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             <span className="flex items-center gap-1.5">
               <Gift className="w-3.5 h-3.5 text-[#D97706]" />
               {amountToFree === 0 ? (
-                <span className="font-semibold text-[#1E3A2F]">Free House Garlic Pickle Jar Unlocked!</span>
+                <span className="font-semibold text-[#161E1A]">Free House Garlic Pickle Jar Unlocked!</span>
               ) : (
-                <span>Add ${amountToFree.toFixed(2)} for Free House Pickle Jar</span>
+                <span>Add {formatPrice(amountToFree)} for Free House Pickle Jar</span>
               )}
             </span>
             <span className="font-mono text-[11px] text-[#7A857E]">{Math.round(progressToFree)}%</span>
@@ -198,8 +200,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     </div>
                   </div>
 
-                  <span className="font-mono text-sm font-bold text-[#1E3A2F] tabular-nums shrink-0">
-                    ${(item.price * item.quantity).toFixed(2)}
+                  <span className="font-mono text-sm font-bold text-[#161E1A] tabular-nums shrink-0">
+                    {formatPrice(item.price * item.quantity)}
                   </span>
                 </div>
 
@@ -308,26 +310,26 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             )}
 
             {/* Subtotal & Totals Breakout */}
-            <div className="space-y-1.5 text-xs text-[#5A635B] pt-2 border-t border-[#1E3A2F]/10">
+            <div className="space-y-1.5 text-xs text-[#5A635B] pt-2 border-t border-[#FA7D09]/15">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span className="font-mono tabular-nums">${subtotal.toFixed(2)}</span>
+                <span className="font-mono tabular-nums font-semibold text-[#161E1A]">{formatPrice(subtotal)}</span>
               </div>
               <div className="flex justify-between">
-                <span>NYC Sales Tax (8.875%)</span>
-                <span className="font-mono tabular-nums">${tax.toFixed(2)}</span>
+                <span>Standard VAT / Tax (16%)</span>
+                <span className="font-mono tabular-nums">{formatPrice(tax)}</span>
               </div>
               {fulfillmentType === 'delivery' && (
                 <div className="flex justify-between">
-                  <span>Courier Delivery</span>
+                  <span>Westlands Courier Delivery</span>
                   <span className="font-mono tabular-nums">
-                    {deliveryFee === 0 ? 'Free (over $40)' : `$${deliveryFee.toFixed(2)}`}
+                    {deliveryFee === 0 ? 'Free' : formatPrice(deliveryFee)}
                   </span>
                 </div>
               )}
-              <div className="flex justify-between text-sm font-bold text-[#1E3A2F] pt-1 border-t border-[#1E3A2F]/10">
+              <div className="flex justify-between text-sm font-bold text-[#161E1A] pt-1 border-t border-[#161E1A]/10">
                 <span>Total Due</span>
-                <span className="font-mono tabular-nums text-[#D97706]">${total.toFixed(2)}</span>
+                <span className="font-mono tabular-nums text-[#FA7D09] text-base">{formatPrice(total)}</span>
               </div>
             </div>
 
@@ -335,14 +337,14 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             <button
               onClick={handleSubmitOrder}
               disabled={isSubmitting}
-              className="w-full flex items-center justify-center gap-2 py-3.5 bg-[#1E3A2F] hover:bg-[#162B23] text-white font-semibold rounded-xl text-sm shadow-md transition-all cursor-pointer disabled:opacity-60"
+              className="w-full flex items-center justify-center gap-2 py-3.5 bg-[#FA7D09] hover:bg-[#E06700] text-white font-bold rounded-xl text-sm shadow-md transition-all cursor-pointer disabled:opacity-60"
             >
               {isSubmitting ? (
                 <span>Dispatching to Kitchen...</span>
               ) : (
                 <>
                   <span>Place Order & Track Kitchen</span>
-                  <ArrowRight className="w-4 h-4 text-[#E69D45]" />
+                  <ArrowRight className="w-4 h-4 text-white" />
                 </>
               )}
             </button>

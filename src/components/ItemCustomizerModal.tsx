@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Plus, Minus, Check, Flame, ShoppingBag, Sparkles } from 'lucide-react';
 import { MenuItem, BreadOption, IngredientModifier, CartItem } from '../types/deli';
+import { useCurrency } from '../context/CurrencyContext';
 
 interface ItemCustomizerModalProps {
   item: MenuItem | null;
@@ -14,6 +15,8 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
   onAddToCart,
 }) => {
   if (!item) return null;
+
+  const { formatPrice } = useCurrency();
 
   const [selectedBread, setSelectedBread] = useState<BreadOption | undefined>(
     item.breadOptions && item.breadOptions.length > 0 ? item.breadOptions[0] : undefined
@@ -123,7 +126,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                     >
                       <span>{bread.name}</span>
                       <span className="font-mono text-[#D97706]">
-                        {bread.priceDelta > 0 ? `+$${bread.priceDelta.toFixed(2)}` : 'Included'}
+                        {bread.priceDelta > 0 ? `+${formatPrice(bread.priceDelta)}` : 'Included'}
                       </span>
                     </button>
                   );
@@ -184,7 +187,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                         <span>{mod.name}</span>
                       </div>
                       <span className="font-mono text-[#D97706]">
-                        {mod.priceDelta > 0 ? `+$${mod.priceDelta.toFixed(2)}` : 'Free'}
+                        {mod.priceDelta > 0 ? `+${formatPrice(mod.priceDelta)}` : 'Free'}
                       </span>
                     </button>
                   );
@@ -235,10 +238,10 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           {/* Total & Confirm Button */}
           <button
             onClick={handleConfirm}
-            className="w-full sm:w-auto flex-1 flex items-center justify-center gap-3 px-6 py-3 bg-[#1E3A2F] hover:bg-[#162B23] text-white font-semibold rounded-xl text-sm shadow-md hover:shadow-lg transition-all cursor-pointer"
+            className="w-full sm:w-auto flex-1 flex items-center justify-center gap-3 px-6 py-3 bg-[#FA7D09] hover:bg-[#E06700] text-white font-bold rounded-xl text-sm shadow-md hover:shadow-lg transition-all cursor-pointer"
           >
-            <ShoppingBag className="w-4 h-4 text-[#E69D45]" />
-            <span>Add {quantity} to Order · ${totalPrice.toFixed(2)}</span>
+            <ShoppingBag className="w-4 h-4 text-white" />
+            <span>Add {quantity} to Order · {formatPrice(totalPrice)}</span>
           </button>
         </div>
       </div>

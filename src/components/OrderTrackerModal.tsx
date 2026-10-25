@@ -14,6 +14,7 @@ import {
   FastForward
 } from 'lucide-react';
 import { OrderRecord, OrderStage } from '../types/deli';
+import { useCurrency } from '../context/CurrencyContext';
 
 interface OrderTrackerModalProps {
   order: OrderRecord | null;
@@ -28,6 +29,7 @@ export const OrderTrackerModal: React.FC<OrderTrackerModalProps> = ({
 }) => {
   if (!order) return null;
 
+  const { formatPrice } = useCurrency();
   const [currentStage, setCurrentStage] = useState<OrderStage>(order.currentStage);
   const [minutesRemaining, setMinutesRemaining] = useState<number>(order.estimatedMinutes);
 
@@ -237,7 +239,7 @@ export const OrderTrackerModal: React.FC<OrderTrackerModalProps> = ({
                       {item.selectedBread && ` (${item.selectedBread})`}
                     </span>
                     <span className="font-mono tabular-nums font-medium text-[#1E3A2F]">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      {formatPrice(item.price * item.quantity)}
                     </span>
                   </div>
                 ))}
@@ -248,7 +250,7 @@ export const OrderTrackerModal: React.FC<OrderTrackerModalProps> = ({
             <div className="pt-3 border-t border-[#1E3A2F]/10 flex justify-between items-center text-sm font-bold text-[#1E3A2F]">
               <span>Total Paid</span>
               <span className="font-mono text-[#D97706] tabular-nums">
-                ${order.total.toFixed(2)}
+                {formatPrice(order.total)}
               </span>
             </div>
           </div>
