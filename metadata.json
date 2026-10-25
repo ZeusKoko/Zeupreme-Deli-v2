@@ -1,0 +1,8 @@
+{
+  "name": "Supreme Deli",
+  "description": "Artisanal gourmet deli with slow-cured pastrami, hand-stretched bagels, interactive 3D sandwich customizer, and seamless online ordering.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
